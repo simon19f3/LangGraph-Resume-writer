@@ -6,7 +6,7 @@ In seconds you get ATS-friendly documents that actually match the job.
 Close the app, come back days or weeks later — it still remembers everything about you. No need to repeat yourself ever again.
 Built from the ground up with LangGraph (the same framework companies like Klarna, Replit, and Uber use for production agents), this isn’t just another prompt wrapper — it’s a real multi-step, stateful agent with memory, branching logic, and persistence.
 
-Features
+# Features
 
 
 Persistent shared state across sessions
@@ -17,7 +17,7 @@ Real checkpointer memory (MemorySaver) so nothing gets lost
 Easy to extend with loops (e.g., “make it better” → regenerate)
 
 Professors and recruiters instantly recognize this as “someone who actually understands agents,” not just copy-pasting from a tutorial.
-How It Works (the flow)
+# How It Works (the flow)
 
 First chat → The agent asks friendly questions to build your full professional profile (you can paste your old resume too).
 Whenever you apply somewhere → Paste the job description and say what you need.
@@ -27,10 +27,12 @@ You get beautifully tailored output, ready to download or copy.
 
 Because everything is saved with a thread ID, every future conversation picks up exactly where you left off.
 Quick Local Setup
-Bashgit clone https://github.com/yourusername/resumeforge.git
-cd resumeforge
 
-pip install -r requirements.txt
+git clone https://github.com/simon19f3/LangGraph-Resume-writer.git
+
+`cd LangGraph-Resume-writer`
+
+`pip install -r requirements.txt`
 
 # Set your LLM API key (OpenAI, Anthropic, Grok, etc.)
 export OPENAI_API_KEY=sk-...
