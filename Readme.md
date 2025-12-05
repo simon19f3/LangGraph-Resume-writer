@@ -1,53 +1,121 @@
-A smart, stateful chatbot that writes perfectly tailored resumes and cover letters for you — and never forgets who you are.
-You tell it about yourself once (your experience, skills, projects, education…).
-Paste any job description.
-Ask for a “resume”, or “cover letter”.
-In seconds you get ATS-friendly documents that actually match the job.
-Close the app, come back days or weeks later — it still remembers everything about you. No need to repeat yourself ever again.
-Built from the ground up with LangGraph (the same framework companies like Klarna, Replit, and Uber use for production agents), this isn’t just another prompt wrapper — it’s a real multi-step, stateful agent with memory, branching logic, and persistence.
+# 🧠 Smart Resume & Job Application Agent  
+**LangGraph + Ollama + Gradio**
 
-Features
+This project is an intelligent, context-aware job application assistant.  
+It automatically generates:
 
+- 📄 Resumes  
+- ✉️ Cover Letters  
+- 🎤 Interview Screening Answers  
 
-Persistent shared state across sessions
-Clear nodes for each responsibility (collect profile → analyze job → generate documents)
-Conditional routing (resume vs cover letter vs both)
-Human-in-the-loop conversation for gathering your info
-Real checkpointer memory (MemorySaver) so nothing gets lost
-Easy to extend with loops (e.g., “make it better” → regenerate)
+The system uses **LangGraph** for workflow orchestration and **Ollama** for local LLM inference.  
+You can paste any job description — the agent filters your skills (AI, frontend, or both)  
+and produces tailored content.
 
-Professors and recruiters instantly recognize this as “someone who actually understands agents,” not just copy-pasting from a tutorial.
-How It Works (the flow)
+---
 
-First chat → The agent asks friendly questions to build your full professional profile (you can paste your old resume too).
-Whenever you apply somewhere → Paste the job description and say what you need.
-The graph runs:
-Profile Collector (only on first run) → Job Analyzer → (conditional branch) → Resume Generator and/or Cover Letter Generator
-You get beautifully tailored output, ready to download or copy.
+## 🚀 Features
+### ✓ Intelligent Skill Filtering
+The agent decides if the job is:
+- AI-related  
+- Frontend-related  
+- Hybrid  
 
-Because everything is saved with a thread ID, every future conversation picks up exactly where you left off.
-Quick Local Setup
-Bashgit clone https://github.com/yourusername/resumeforge.git
-cd resumeforge
+Then filters your profile so the LLM **only** sees relevant skills.
 
+### ✓ LangGraph Workflow
+Nodes:
+- Profile Collector  
+- Job Analyzer  
+- Conditional Router  
+- Resume Generator  
+- Cover Letter Generator  
+- Screening Q/A Generator  
+
+### ✓ Fully Modular Codebase
+Code is split into:
+```
+state/        # State definitions
+nodes/        # Each graph node
+llm/          # LLM configuration
+utils/        # Helpers (optional)
+graph.py      # Builds and compiles the LangGraph graph
+app.py        # Gradio UI interface
+```
+
+---
+
+## 📦 Install & Run
+
+### 1️⃣ Install Dependencies
+```bash
 pip install -r requirements.txt
+```
 
-# Set your LLM API key (OpenAI, Anthropic, Grok, etc.)
-export OPENAI_API_KEY=sk-...
+### 2️⃣ Install & Start Ollama  
+Download: https://ollama.com  
 
-streamlit run app.py
-Open your browser to http://localhost:8501 and start chatting!
-Tech Highlights
+Then pull a model:
+```bash
+ollama pull llama3.2
+```
 
-LangGraph + LangChain (stateful graphs, tools, memory)
-Streamlit for the simple chat UI
-MemorySaver checkpointer (persists your profile forever)
-Works with any LLM (just change the model name)
+Make sure Ollama is running:
+```bash
+ollama serve
+```
 
-Ideas for Extending It (if you want to level up)
+---
 
-Add a “critique & regenerate” loop when you say “make it stronger”
-Export directly to PDF or DOCX
-Multiple saved profiles (switch between “software engineer me” and “product manager me”)
-Host it publicly with user accounts
-Add LinkedIn profile import
+## ▶️ Launch the App
+```bash
+python app.py
+```
+
+Gradio will start at:
+```
+http://127.0.0.1:7860
+```
+
+---
+
+## 🐳 Run Using Docker
+
+### Build the image:
+```bash
+docker build -t smart-resume-agent .
+```
+
+### Run the container:
+> ⚠️ Ollama must be installed on the host and mounted into Docker
+
+```bash
+docker run -it --net=host \
+  -v ~/.ollama:/root/.ollama \
+  smart-resume-agent
+```
+
+---
+
+
+
+## 🧪 Testing Your Graph Node-by-Node
+You can test a workflow step manually:
+
+```python
+from graph import build_graph
+workflow = build_graph()
+
+workflow.invoke({"messages": [{"role": "user", "content": "Resume for AI engineer"}]})
+```
+
+---
+
+## 🤝 Contributing
+Pull requests are welcome!  
+Please format code with **Black** and follow the modular structure.
+
+---
+
+## 📝 License
+MIT License.
